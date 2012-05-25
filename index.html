@@ -1,9 +1,17 @@
 <html lang="en">
 <head>
-	<title></title>
+	<title>Retweetd</title>
 	<meta charset="utf-8">
 	<meta name="author" content="Kieran Patel">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<style type="text/css" media="screen">
+		#output {
+			margin: 20px auto;
+			width: 60%;
+			height: 250px;
+			border: 1px solid #ccc;
+		}
+	</style>
 </head>
 <body>
 	<header>
@@ -12,20 +20,42 @@
 	</header>
 	<div>
 		@<input type="text" placeholder="username">
-		<button onclick="loadTweets">Go!</button>
+		<button onclick="loadTweets(0);">Go!</button>
 	</div>
 	<div id="output"></div>
 	
 	<script type="text/javascript">
-		function loadTweets() {
-			var url = "get.php?user=" + $("input").val();
+		function loadTweets(id) {
+			var url = "http://kieranajp.co.uk/retweetd/get.php?user=" + $("input").val() + "&since=" + id;
 			$.getJSON(url, findRetweets);
 		}
 		
 		function findRetweets(data) {
+			console.log(data);
+			var retweets = new Array();
+			var x = 0;
+			var since = 0;
+			
+			$("#output").html("<ul>");
+			
 			for (i = 0; i < data.length; i++) {
-				$("output").text() = data[i];
+				since = data[i].id_str;
+				if (data[i].retweet_count > 0) {
+					retweets[x] = data[i].text;
+					x++;
+				}
 			}
+			
+			for (i = 200; i < 3200; i+=200) {
+				// load more tweets in god dammit I need to sleep.
+			}
+			
+			for (i = 0; i < retweets.length; i++) {
+				$("#output").append("<li>" + retweets[i] + "</li>");
+			}
+			
+			$("#output").append("</ul>");
+		}
 	</script>
 </body>
 </html>
