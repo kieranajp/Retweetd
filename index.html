@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="author" content="Kieran Patel">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+</head>
+<body>
+	<header>
+		<h1>Retweetd</h1>
+		<p>Because missing out vowels is popular these days</p>
+	</header>
+	<div>
+		@<input type="text" placeholder="username">
+		<button onclick="loadTweets">Go!</button>
+	</div>
+	<div id="output"></div>
+	
+	<script type="text/javascript">
+		function loadTweets() {
+			var url = "get.php?user=" + $("input").val();
+			$.getJSON(url, findRetweets);
+		}
+		
+		function findRetweets(data) {
+			for (i = 0; i < data.length; i++) {
+				$("output").text() = data[i];
+			}
+	</script>
+</body>
+</html>
